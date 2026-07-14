@@ -67,7 +67,7 @@
             cursor: none;
         }
 
-        /* Absolutely centered foggy glass box */
+        /* Absolutely centered heavy foggy glass box */
         .content {
             position: fixed;
             top: 50%;
@@ -77,16 +77,16 @@
             text-align: center;
             padding: 40px;
             
-            /* Milky, semi-transparent background */
-            background: rgba(255, 255, 255, 0.35); 
-            /* High blur to create the heavy "foggy" depth */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            /* Frosty white highlight border */
-            border: 1px solid rgba(255, 255, 255, 0.45); 
+            /* Thicker, milkier white background for a more opaque look */
+            background: rgba(255, 255, 255, 0.65); 
+            /* Heavy blur to create the foggy frosted depth */
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            /* Slightly stronger frosty white border highlight */
+            border: 1.5px solid rgba(255, 255, 255, 0.6); 
             
             border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
             max-width: 500px;
             width: 90%;
             
@@ -107,7 +107,7 @@
             margin: 0;
             color: #e91e63;
             line-height: 1.2;
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
         }
 
         .hidden {
