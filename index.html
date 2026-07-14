@@ -27,14 +27,12 @@
             pointer-events: none; /* Allows clicking through the image */
             z-index: 9999;
             transform: translate(-50%, -50%);
-            /* Updated to your new yellow glow Dropbox link with raw=1 */
-            background-image: url('https://www.dropbox.com/scl/fi/cjc9ghit5n28ix17sgckj/5886c856-0d12-4de8-ad88-7beeccf11f62.jpg?rlkey=hkdmcjl2s454srl8ipdpf32yu&st=o76ga5ls&raw=1');
+            
+            /* Cleaned transparent yellow glow (no fake checkerboard, no blend modes needed!) */
+            background-image: url('https://i.ibb.co/3yk7yv0Y/transparent-yellow-glow.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            
-            /* Automatically hides the white background of the JPG */
-            mix-blend-mode: multiply; 
         }
 
         .overlay {
@@ -47,6 +45,8 @@
             justify-content: center;
             z-index: 100;
             transition: opacity 1s ease;
+            /* Keeps the default cursor hidden on the overlay too */
+            cursor: none; 
         }
 
         .click-text {
@@ -54,6 +54,7 @@
             color: white;
             text-align: center;
             text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            cursor: none;
         }
 
         .content {
