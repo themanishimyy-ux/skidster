@@ -35,6 +35,26 @@
             background-position: center;
         }
 
+        /* High-Quality Background Image Layer */
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Direct link to your high-quality anime background */
+            background-image: url('https://www.dropbox.com/scl/fi/2f054z7rqv0ixxb1n3ino/e818bffc42bbac1b119ce32ac846bdfd.jpg?rlkey=3m3leyrvu4nqh2p09co9hl6hm&st=a62ibdpu&raw=1');
+            background-size: cover;
+            background-position: center;
+            z-index: 1; /* Sits behind snow and text */
+            opacity: 0;
+            transition: opacity 1.5s ease; /* Smooth 1.5s fade-in */
+        }
+
+        .bg-image.show {
+            opacity: 1;
+        }
+
         /* Snowfall Canvas container */
         #snow-canvas {
             position: fixed;
@@ -67,7 +87,7 @@
             cursor: none;
         }
 
-        /* Absolutely centered heavy foggy glass box */
+        /* Absolutely centered semi-transparent, clear glass box */
         .content {
             position: fixed;
             top: 50%;
@@ -119,6 +139,8 @@
 
     <div id="custom-cursor" class="custom-cursor"></div>
 
+    <div id="bg-image" class="bg-image"></div>
+
     <canvas id="snow-canvas"></canvas>
 
     <div id="overlay" class="overlay">
@@ -136,6 +158,7 @@
     <script>
         const overlay = document.getElementById('overlay');
         const content = document.getElementById('content');
+        const bgImage = document.getElementById('bg-image');
         const audio = document.getElementById('bgmusic');
         const cursor = document.getElementById('custom-cursor');
         const canvas = document.getElementById('snow-canvas');
@@ -176,48 +199,4 @@
             ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
             ctx.beginPath();
             
-            for (let i = 0; i < maxSnowflakes; i++) {
-                const f = snowflakes[i];
-                ctx.moveTo(f.x, f.y);
-                ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
-
-                // Update falling/swaying position
-                f.y += f.speed;
-                f.x += Math.sin(f.d) * 0.5;
-
-                // If a snowflake hits the bottom, reset it back to the top
-                if (f.y > height) {
-                    snowflakes[i] = {
-                        x: Math.random() * width,
-                        y: -10,
-                        r: f.r,
-                        d: f.d,
-                        speed: f.speed
-                    };
-                }
-            }
-            ctx.fill();
-            requestAnimationFrame(drawSnow);
-        }
-
-        // Initialize Snowfall Loop
-        drawSnow();
-
-        // --- ENTER EXPERIENCE LOGIC ---
-        function startExperience() {
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                // Adds the scale-up and fade-in effect to the content
-                content.classList.add('show');
-            }, 800);
-
-            audio.volume = 0.7;
-            audio.play().catch(() => {});
-        }
-
-        document.addEventListener('click', startExperience, { once: true });
-        document.addEventListener('touchstart', startExperience, { once: true });
-    </script>
-</body>
-</html>
+            for (let i = 0; i < maxSnowflakes; i++)
