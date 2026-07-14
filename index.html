@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nicoownsthis This</title>
+    <style>
+        body {
+            font-family: 'Super Mindset', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            color: #333;
+            cursor: url('https://www.dropbox.com/scl/fi/itexe5297kps4duqx23ft/Eye-Glow-Png-Circle-Transparent-Png-800x798-PngFind.jpg?rlkey=b92ope8bxmrbhuw58ywbbee7r&st=00xv3b7f&raw=1') 50 50, auto;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 1s ease;
+        }
+
+        .click-text {
+            font-size: 3rem;
+            color: white;
+            text-align: center;
+            cursor: url('https://www.dropbox.com/scl/fi/itexe5297kps4duqx23ft/Eye-Glow-Png-Circle-Transparent-Png-800x798-PngFind.jpg?rlkey=b92ope8bxmrbhuw58ywbbee7r&st=00xv3b7f&dl=1') 50 50, auto;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 0 auto;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: #e91e63;
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Click Overlay -->
+    <div id="overlay" class="overlay">
+        <div class="click-text">CLICK ANYWHERE TO ENTER</div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="content" class="content">
+        <h1>Eibd owns this website and is a larp</h1>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bgmusic" loop preload="auto">
+        <source src="https://www.dropbox.com/scl/fi/y66dxtu8y6snyr0d8m4p0/SpotiDown.App-Blue-Bands-Weiland.mp3?rlkey=4u8sava6vm31v60rmg85tvvuo&st=ks0dp4ew&dl=1" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const overlay = document.getElementById('overlay');
+        const content = document.getElementById('content');
+        const audio = document.getElementById('bgmusic');
+
+        function startExperience() {
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                content.style.opacity = '1';
+            }, 800);
+
+            audio.volume = 0.7;
+            audio.play().catch(() => {});
+        }
+
+        document.addEventListener('click', startExperience, { once: true });
+        document.addEventListener('touchstart', startExperience, { once: true });
+    </script>
+</body>
+</html>
