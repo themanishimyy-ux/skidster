@@ -31,6 +31,9 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            
+            /* Blends out the dark checkerboard background, leaving only the white glow */
+            mix-blend-mode: screen; 
         }
 
         .overlay {
@@ -91,34 +94,4 @@
     </div>
 
     <audio id="bgmusic" loop preload="auto">
-        <source src="https://www.dropbox.com/scl/fi/y66dxtu8y6snyr0d8m4p0/SpotiDown.App-Blue-Bands-Weiland.mp3?rlkey=4u8sava6vm31v60rmg85tvvuo&st=ks0dp4ew&dl=1" type="audio/mpeg">
-    </audio>
-
-    <script>
-        const overlay = document.getElementById('overlay');
-        const content = document.getElementById('content');
-        const audio = document.getElementById('bgmusic');
-        const cursor = document.getElementById('custom-cursor');
-
-        // Track mouse movement for custom cursor
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        function startExperience() {
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                content.style.opacity = '1';
-            }, 800);
-
-            audio.volume = 0.7;
-            audio.play().catch(() => {});
-        }
-
-        document.addEventListener('click', startExperience, { once: true });
-        document.addEventListener('touchstart', startExperience, { once: true });
-    </script>
-</body>
-</html>
+        <source src="
