@@ -87,7 +87,7 @@
             cursor: none;
         }
 
-        /* Absolutely centered semi-transparent, clear glass box */
+        /* Absolutely centered translucent, clear glass box */
         .content {
             position: fixed;
             top: 50%;
@@ -162,41 +162,96 @@
         const audio = document.getElementById('bgmusic');
         const cursor = document.getElementById('custom-cursor');
         const canvas = document.getElementById('snow-canvas');
-        const ctx = canvas.getContext('2d');
-
-        // Track mouse movement for custom cursor
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // --- SNOWFALL EFFECT LOGIC ---
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-
-        const maxSnowflakes = 100; // Total flakes on screen
-        const snowflakes = [];
-
-        // Generate random parameters for each flake
-        for (let i = 0; i < maxSnowflakes; i++) {
-            snowflakes.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                r: Math.random() * 3 + 1, // Flake size (1px to 4px)
-                d: Math.random() * maxSnowflakes, // Density/sway pattern
-                speed: Math.random() * 1.5 + 0.5 // Drifting speed
+        
+        // Setup custom cursor movement safely
+        if (cursor) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
             });
         }
 
-        // Keep canvas matched to window resize
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        });
+        // --- SNOWFALL EFFECT LOGIC ---
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
 
-        function drawSnow() {
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-            ctx.beginPath();
+            const maxSnowflakes = 100; // Total flakes on screen
+            const snowflakes = [];
+
+            // Generate random parameters for each flake
+            for (let i = 0; i < maxSnowflakes; i++) {
+                snowflakes.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    r: Math.random() * 3 + 1, // Flake size (1px to 4px)
+                    d: Math.random() * maxSnowflakes, // Density/sway pattern
+                    speed: Math.random() * 1.5 + 0.5 // Drifting speed
+                });
+            }
+
+            // Keep canvas matched to window resize
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            function drawSnow() {
+                ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                
+                for (let i = 0; i < maxSnowflakes; i++) {
+                    const f = snowflakes[i];
+                    ctx.moveTo(f.x, f.y);
+                    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+
+                    // Update falling/swaying position
+                    f.y += f.speed;
+                    f.x += Math.sin(f.d) * 0.5;
+
+                    // If a snowflake hits the bottom, reset it back to the top
+                    if (f.y > height) {
+                        snowflakes[i] = {
+                            x: Math.random() * width,
+                            y: -10,
+                            r: f.r,
+                            d: f.d,
+                            speed: f.speed
+                        };
+                    }
+                }
+                ctx.fill();
+                requestAnimationFrame(drawSnow);
+            }
+
+            // Initialize Snowfall Loop
+            drawSnow();
+        }
+
+        // --- ENTER EXPERIENCE LOGIC ---
+        function startExperience() {
+            if (overlay) overlay.style.opacity = '0';
             
-            for (let i = 0; i < maxSnowflakes; i++)
+            // Safety check: only transition background if the HTML element exists
+            if (bgImage) bgImage.classList.add('show');
+
+            setTimeout(() => {
+                if (overlay) overlay.classList.add('hidden');
+                // Safety check: only show content if the element exists
+                if (content) content.classList.add('show');
+            }, 800);
+
+            if (audio) {
+                audio.volume = 0.7;
+                audio.play().catch(() => {});
+            }
+        }
+
+        // Listen for clicks or touches anywhere to enter
+        document.addEventListener('click', startExperience, { once: true });
+        document.addEventListener('touchstart', startExperience, { once: true });
+    </script>
+</body>
+</html>
