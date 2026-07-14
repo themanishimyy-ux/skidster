@@ -28,7 +28,7 @@
             z-index: 9999;
             transform: translate(-50%, -50%);
             
-            /* Updated to your new PNG link with raw=1 */
+            /* Your custom pink/white cursor */
             background-image: url('https://www.dropbox.com/scl/fi/ysw6i06ds5hubpwyt9mwf/d77006bc6390c00cdb3c82f8641e4452.png?rlkey=rdh8ba7pupsol4qih63qcchl6&st=86ije9zd&raw=1');
             background-size: contain;
             background-repeat: no-repeat;
@@ -56,8 +56,13 @@
             cursor: none;
         }
 
+        /* Absolutely centered white box */
         .content {
-            position: relative;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            /* translate(-50%, -50%) forces perfect centering */
+            transform: translate(-50%, -50%) scale(0.8);
             z-index: 1;
             text-align: center;
             padding: 40px;
@@ -65,9 +70,18 @@
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             max-width: 500px;
-            margin: 0 auto;
+            width: 90%;
+            
+            /* Start invisible and shrunk */
             opacity: 0;
-            transition: opacity 1.2s ease;
+            /* Smooth transitions for scale and opacity */
+            transition: opacity 1s cubic-bezier(0.34, 1.56, 0.64, 1), transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Keeps perfect centering while scaling up on enter */
+        .content.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
         }
 
         h1 {
@@ -114,7 +128,8 @@
             overlay.style.opacity = '0';
             setTimeout(() => {
                 overlay.classList.add('hidden');
-                content.style.opacity = '1';
+                // Adds the scale-up and fade-in effect to the content
+                content.classList.add('show');
             }, 800);
 
             audio.volume = 0.7;
