@@ -27,13 +27,14 @@
             pointer-events: none; /* Allows clicking through the image */
             z-index: 9999;
             transform: translate(-50%, -50%);
-            background-image: url('https://www.dropbox.com/scl/fi/itexe5297kps4duqx23ft/Eye-Glow-Png-Circle-Transparent-Png-800x798-PngFind.jpg?rlkey=b92ope8bxmrbhuw58ywbbee7r&st=00xv3b7f&raw=1');
+            /* Updated to your new yellow glow Dropbox link with raw=1 */
+            background-image: url('https://www.dropbox.com/scl/fi/cjc9ghit5n28ix17sgckj/5886c856-0d12-4de8-ad88-7beeccf11f62.jpg?rlkey=hkdmcjl2s454srl8ipdpf32yu&st=o76ga5ls&raw=1');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
             
-            /* Blends out the dark checkerboard background, leaving only the white glow */
-            mix-blend-mode: screen; 
+            /* Automatically hides the white background of the JPG */
+            mix-blend-mode: multiply; 
         }
 
         .overlay {
@@ -94,4 +95,34 @@
     </div>
 
     <audio id="bgmusic" loop preload="auto">
-        <source src="
+        <source src="https://www.dropbox.com/scl/fi/y66dxtu8y6snyr0d8m4p0/SpotiDown.App-Blue-Bands-Weiland.mp3?rlkey=4u8sava6vm31v60rmg85tvvuo&st=ks0dp4ew&dl=1" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const overlay = document.getElementById('overlay');
+        const content = document.getElementById('content');
+        const audio = document.getElementById('bgmusic');
+        const cursor = document.getElementById('custom-cursor');
+
+        // Track mouse movement for custom cursor
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        function startExperience() {
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                content.style.opacity = '1';
+            }, 800);
+
+            audio.volume = 0.7;
+            audio.play().catch(() => {});
+        }
+
+        document.addEventListener('click', startExperience, { once: true });
+        document.addEventListener('touchstart', startExperience, { once: true });
+    </script>
+</body>
+</html>
