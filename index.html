@@ -77,11 +77,11 @@
             text-align: center;
             padding: 40px;
             
-            /* Thicker, milkier white background for a more opaque look */
-            background: rgba(255, 255, 255, 0.65); 
-            /* Heavy blur to create the foggy frosted depth */
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            /* Lower opacity (45% white) to make it much more see-through */
+            background: rgba(255, 255, 255, 0.45); 
+            /* Lighter blur (12px) so background elements behind it look clearer */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             /* Slightly stronger frosty white border highlight */
             border: 1.5px solid rgba(255, 255, 255, 0.6); 
             
