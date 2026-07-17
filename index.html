@@ -46,7 +46,7 @@
             background-image: url('https://www.dropbox.com/scl/fi/dqg2xii9mecqvxpas3yit/wp13485676.jpg?rlkey=8t70vltwii09ro2ih0p4la89i&st=tp4szl7a&raw=1');
             background-size: cover;
             background-position: center;
-            z-index: 1; /* Sits behind snow and text */
+            z-index: 1; /* Sits behind rain and text */
             opacity: 0;
             transition: opacity 1.5s ease; /* Smooth 1.5s fade-in */
         }
@@ -55,8 +55,8 @@
             opacity: 1;
         }
 
-        /* Snowfall Canvas container */
-        #snow-canvas {
+        /* Rain Canvas container */
+        #rain-canvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -93,7 +93,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
-            z-index: 3; /* Elevated above the snow canvas */
+            z-index: 3; /* Elevated above the rain canvas */
             text-align: center;
             padding: 40px;
             
@@ -139,9 +139,11 @@
 
     <div id="custom-cursor" class="custom-cursor"></div>
 
+    <!-- Background Image Layer -->
     <div id="bg-image" class="bg-image"></div>
 
-    <canvas id="snow-canvas"></canvas>
+    <!-- Rain Canvas Element (Renamed ID from snow-canvas) -->
+    <canvas id="rain-canvas"></canvas>
 
     <div id="overlay" class="overlay">
         <div class="click-text">CLICK ANYWHERE TO ENTER</div>
@@ -161,7 +163,7 @@
         const bgImage = document.getElementById('bg-image');
         const audio = document.getElementById('bgmusic');
         const cursor = document.getElementById('custom-cursor');
-        const canvas = document.getElementById('snow-canvas');
+        const canvas = document.getElementById('rain-canvas');
         
         // Setup custom cursor movement safely
         if (cursor) {
@@ -171,23 +173,23 @@
             });
         }
 
-        // --- SNOWFALL EFFECT LOGIC ---
+        // --- RAINFALL EFFECT LOGIC ---
         if (canvas) {
             const ctx = canvas.getContext('2d');
             let width = canvas.width = window.innerWidth;
             let height = canvas.height = window.innerHeight;
 
-            const maxSnowflakes = 100; // Total flakes on screen
-            const snowflakes = [];
+            const maxRaindrops = 140; // Amount of rain on screen
+            const raindrops = [];
 
-            // Generate random parameters for each flake
-            for (let i = 0; i < maxSnowflakes; i++) {
-                snowflakes.push({
+            // Generate initial parameters for each raindrop
+            for (let i = 0; i < maxRaindrops; i++) {
+                raindrops.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    r: Math.random() * 3 + 1, // Flake size (1px to 4px)
-                    d: Math.random() * maxSnowflakes, // Density/sway pattern
-                    speed: Math.random() * 1.5 + 0.5 // Drifting speed
+                    length: Math.random() * 20 + 10, // Length of the drop line
+                    speed: Math.random() * 12 + 12,  // Faster downward velocity
+                    opacity: Math.random() * 0.2 + 0.15 // Soft transparency variants
                 });
             }
 
@@ -197,37 +199,45 @@
                 height = canvas.height = window.innerHeight;
             });
 
-            function drawSnow() {
+            function drawRain() {
                 ctx.clearRect(0, 0, width, height);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                ctx.beginPath();
                 
-                for (let i = 0; i < maxSnowflakes; i++) {
-                    const f = snowflakes[i];
-                    ctx.moveTo(f.x, f.y);
-                    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+                // Adjust drop width and line cap properties for a smooth stretch
+                ctx.lineWidth = 1.5;
+                ctx.lineCap = 'round';
+                
+                for (let i = 0; i < maxRaindrops; i++) {
+                    const r = raindrops[i];
+                    
+                    // Soft dark translucent color for visibility against white backgrounds
+                    ctx.strokeStyle = `rgba(0, 0, 0, ${r.opacity})`;
+                    ctx.beginPath();
+                    
+                    // Draw raindrop with a tiny horizontal offset (slight slant/angle)
+                    ctx.moveTo(r.x, r.y);
+                    ctx.lineTo(r.x + 1, r.y + r.length);
+                    ctx.stroke();
 
-                    // Update falling/swaying position
-                    f.y += f.speed;
-                    f.x += Math.sin(f.d) * 0.5;
+                    // Update raindrop position based on speed
+                    r.y += r.speed;
+                    r.x += 0.5; // Controls uniform light breeze slant
 
-                    // If a snowflake hits the bottom, reset it back to the top
-                    if (f.y > height) {
-                        snowflakes[i] = {
+                    // If a raindrop falls past the bottom, reset it back to the top
+                    if (r.y > height) {
+                        raindrops[i] = {
                             x: Math.random() * width,
-                            y: -10,
-                            r: f.r,
-                            d: f.d,
-                            speed: f.speed
+                            y: -20,
+                            length: r.length,
+                            speed: r.speed,
+                            opacity: r.opacity
                         };
                     }
                 }
-                ctx.fill();
-                requestAnimationFrame(drawSnow);
+                requestAnimationFrame(drawRain);
             }
 
-            // Initialize Snowfall Loop
-            drawSnow();
+            // Initialize Rain Loop
+            drawRain();
         }
 
         // --- ENTER EXPERIENCE LOGIC ---
